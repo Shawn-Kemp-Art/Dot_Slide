@@ -80,11 +80,12 @@ var qm = new URLSearchParams(window.location.search).get('cutmarks'); //any valu
 var qc = new URLSearchParams(window.location.search).get('colors'); // number of colors
 var qb = new URLSearchParams(window.location.search).get('pattern');// background style
 var qf = new URLSearchParams(window.location.search).get('flowers');// Number of dahlias
+var testingGo = new URLSearchParams(window.location.search).get('testing');// Run generative tests
 
-var frC = R.random_int(1, 1); //random frame color white, mocha, or rainbow
+var frC = R.random_int(1, 3); //random frame color white, mocha, or rainbow
 var orient=R.random_int(1, 4); // decide on orientation 
 //orient=2;
-var halfsize = R.random_int(2, 5);
+var halfsize = R.random_int(1, 5);
 
 //Set the properties for the artwork where 100 = 1 inch
 var wide = 800; 
@@ -101,12 +102,12 @@ var scale = 2;
 var ratio = 1/scale;//use 1/4 for 32x40 - 1/3 for 24x30 - 1/2 for 16x20 - 1/1 for 8x10
 
 var minOffset = ~~(7*ratio); //this is aproximatly .125"
-var framewidth = ~~(50*scale); 
+var framewidth = ~~(R.random_int(25, 50)*scale); 
 //var framewidth = 50; 
     if (qfw){framewidth=qfw};
 
 var framradius = 0;
-var stacks = 10;
+var stacks = R.random_int(6, 10);
     //stacks = $fx.getParam("number_layers"); 
     if (ql){stacks=parseInt(ql)};
 console.log(stacks+" layers");
@@ -164,7 +165,7 @@ if (frC==2){colors[stacks-1]={"Hex":"#4C4638", "Name":"Mocha"}};
 //Set the line color
 linecolor={"Hex":"#4C4638", "Name":"Mocha"};
 
-colors[stacks-2]={"Hex":"#FFFFFF", "Name":"Smooth White"};
+//colors[stacks-2]={"Hex":"#FFFFFF", "Name":"Smooth White"};
 
 
 //************* Draw the layers ************* 
@@ -182,40 +183,43 @@ var punchRadius = R.random_int(20, 75);
 var wgrid = ~~((wide-framewidth*2)/((wide-framewidth*2)/(punchRadius+minOffset*3)))
 var hgrid = ~~((high-framewidth*2)/((high-framewidth*2)/(punchRadius+minOffset*3)))
 
-    console.log(punchRadius, wgrid,hgrid);
-
+    console.log(wide-framewidth*2,punchRadius, wgrid,hgrid);
+var xshift = (wide-framewidth*2)%wgrid;
+var yshift = (high-framewidth*2)%hgrid;
+console.log(xshift,yshift)    
+var xstart = ~~(framewidth+wgrid/2)+xshift/2
+var ystart = ~~(framewidth+hgrid/2)+yshift/2
 var segments =[]
-
-
+var punchDepth = R.random_num(.3, .6);
+var slideChance = R.random_num(.3, .6);
+console.log(punchDepth, slideChance)
 //---- Draw the Layers
 
 //var lineswidth= 5+fxrand()*10
 for (z = 0; z < stacks; z++) {
     pz=z*prange;
     drawFrame(z); // Draw the initial frame
-    
-    pR = punchRadius-(minOffset*(stacks-z-1));
+    solid(z)
+    var punchOffset = ~~(punchRadius/(stacks-1))
+    pR = ~~(punchRadius-(punchOffset*(stacks-z-1)));
    
-       if (z > 0 && z < stacks-1) {
-        solid(z)
-        for (xg=framewidth; xg<wide; xg=xg+wgrid){
+       if (z > 0 ) {
+        
+        for (xg=xstart; xg<wide-framewidth; xg=xg+wgrid){
             punchX[xg]=[];
             px=xg*prange;
-            for (yg=framewidth; yg<high; yg=yg+hgrid){
+            for (yg=ystart; yg<high-framewidth; yg=yg+hgrid){
                 py=yg*prange;
             
-                
-
                 if (punchX[xg][yg] == null ){
-
-                    if (noise.get(px,py,pz)<.48){punchX[xg][yg]=1;}
+                    if (noise.get(px,py,pz)<punchDepth){punchX[xg][yg]=1;}
                 }
                 
                 if (punchX[xg][yg] != 1 ){
-                    punchout(xg,yg,pR,pR,z)
+                    if (pR>2){punchout(xg,yg,pR,pR,z)}
                 };
                 
-                if (noise.get(xg,yg,z)>.6 && z==stacks-2 ){
+                if (noise.get(xg,yg,z)>slideChance && z==stacks-1 ){
                     if (noise.get(px,py,z)<.5 && xg<wide-framewidth*2-wgrid){
                         hslide(xg,yg,pR,pR,z,R.random_int(2, 2))
                         };
@@ -280,19 +284,19 @@ for (z = 0; z < stacks; z++) {
     $fx.features(features);
     //$fx.preview();
 
-    var finalTime = new Date().getTime();
-    console.log ('this took : ' +  (finalTime - initialTime)/1000 + ' seconds' );
-
-     
-     //refreshit();
+      var finalTime = new Date().getTime();
+    var renderTime = (finalTime - initialTime)/1000
+    console.log ('this took : ' +  renderTime.toFixed(2) + ' seconds' );
 
 
-     async function refreshit() {
-        setquery("fxhash",null);
-        await new Promise(resolve => setTimeout(resolve, 3000)); // 3 sec
-        canvas.toBlob(function(blob) {saveAs(blob, tokenData.hash+'.png');});
-        await new Promise(resolve => setTimeout(resolve, 3000)); // 3 sec
-        location.reload();
+        if (testingGo == 'true'){refreshit();}
+
+        async function refreshit() {
+        //setquery("fxhash",null);
+        await new Promise(resolve => setTimeout(resolve, 5000)); // 3 sec
+        canvas.toBlob(function(blob) {saveAs(blob, tokenData.hash+' - '+renderTime.toFixed(0)+'secs.png');});
+        await new Promise(resolve => setTimeout(resolve, 5000)); // 3 sec
+        window.open('file:///Users/shawnkemp/dev/dotandslide/DotandSlide/index.html?testing=true', '_blank');
         }
 
 //vvvvvvvvvvvvvvv PROJECT FUNCTIONS vvvvvvvvvvvvvvv 

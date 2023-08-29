@@ -107,7 +107,7 @@ var framewidth = ~~(R.random_int(25, 50)*scale);
     if (qfw){framewidth=qfw};
 
 var framradius = 0;
-var stacks = R.random_int(6, 10);
+var stacks = R.random_int(8, 12);
     //stacks = $fx.getParam("number_layers"); 
     if (ql){stacks=parseInt(ql)};
 console.log(stacks+" layers");
@@ -233,9 +233,6 @@ for (z = 0; z < stacks; z++) {
 
         }
         }
-         //punchout(200,200,punchRadius,punchRadius,z)
-         //punchout(400,400,punchRadius,punchRadius*3,z)
-         //punchout(700,600,punchRadius*2,punchRadius,z)
      }
 
          //-----Draw each layer

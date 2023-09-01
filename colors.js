@@ -2,15 +2,16 @@
 var tints = [
 {"Hex":"#FEF6E3", "Name":"Antique White"},
 {"Hex":"#F5E3CF", "Name":"Beige"},
-//{"Hex":"#01AE52", "Name":"Bright Green"},
+{"Hex":"#01AE52", "Name":"Bright Green"},
 {"Hex":"#8490A6", "Name":"Brittany Blue"},
 {"Hex":"#745042", "Name":"Burnt Sienna"},
 {"Hex":"#FFF35D", "Name":"Buttercup"},
 {"Hex":"#AE0838", "Name":"Cardinal"},
-{"Hex":"#FDFBFF", "Name":"Canvas"},
 {"Hex":"#447560", "Name":"Celtic"},
-{"Hex":"#F4ECDB", "Name":"Cream Linen"},
+{"Hex":"#E1C76A", "Name":"Chamois"},
 {"Hex":"#C4D817", "Name":"Chartreuse"},
+{"Hex":"#8A473F", "Name":"Chili"},
+{"Hex":"#CED5DB", "Name":"Clapboard"},
 {"Hex":"#CC9047", "Name":"Golden"},
 {"Hex":"#FBCBD7", "Name":"Hollyhock"},
 {"Hex":"#EF4C84", "Name":"Hot Pink"},
@@ -23,7 +24,7 @@ var tints = [
 {"Hex":"#F7743E", "Name":"Tangerine"},
 {"Hex":"#1A1A1A", "Name":"Smooth Black"},
 {"Hex":"#FFFFFF", "Name":"Smooth White"},
-
+{"Hex":"#949B6F", "Name":"Valley Green"},
 ]
 
 var lightburn = [

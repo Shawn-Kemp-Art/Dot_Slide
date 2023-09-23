@@ -281,10 +281,9 @@ for (z = 0; z < stacks; z++) {
     $fx.features(features);
     //$fx.preview();
 
-    //Add a finished creating preview selector
-    var iDiv = document.createElement('div');
-    iDiv.id = 'render';
-    document.body.appendChild(iDiv);
+    
+    upspirestudio(features); //#render and send features to upspire.studio
+
 
       var finalTime = new Date().getTime();
     var renderTime = (finalTime - initialTime)/1000

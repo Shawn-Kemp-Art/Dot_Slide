@@ -33,7 +33,7 @@ function setquery(p,v){
         if (features == null){features={};}
         var genurl = window.location.href;
         var attr = JSON.stringify(features).replace(/\"/g,"'")
-        var url = 'https://upspirestudio.bubbleapps.io/api/1.1/wf/update-features';
+        var url = 'https://upspire.studio/api/1.1/wf/update-features';
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url);
         xhr.setRequestHeader("Content-Type", "application/json");

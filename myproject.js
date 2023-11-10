@@ -458,15 +458,19 @@ function signature(z){
 function hanger (z){
     if (z < stacks-2 && scale>0){
         var r = 30*ratio;
+        rt = 19*ratio;
         if (z<3){r = 19*ratio}
-        var layerEtch = new Path.Circle(new Point(wide/2,framewidth/2),r)
+        layerEtch = new Path.Rectangle(new Point(framewidth/2, framewidth),new Size(r*2, r*3), r)
+        layerEtch.position = new Point(framewidth/2,framewidth);   
         cut(z,layerEtch)
-        //var layerEtch = new Path.Circle(new Point(wide/2,high-framewidth/2),r)
-        //cut(z,layerEtch)
-        if (scale>0){var layerEtch = new Path.Circle(new Point(framewidth/2,high/2),r)
+
+        layerEtch = new Path.Rectangle(new Point(wide-framewidth/2, framewidth),new Size(r*2, r*3), r)
+        layerEtch.position = new Point(wide-framewidth/2,framewidth);   
         cut(z,layerEtch)
-        var layerEtch = new Path.Circle(new Point(wide-framewidth/2,high/2),r)
-        cut(z,layerEtch)}
+
+        layerEtch = new Path.Rectangle(new Point(wide/2, framewidth/2),new Size(r*4, r*2), r)
+        layerEtch.position = new Point(wide/2,framewidth/2);   
+        cut(z,layerEtch)
     }
 }
 

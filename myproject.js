@@ -250,7 +250,7 @@ for (z = 0; z < stacks; z++) {
     frameIt(z);// finish the layer with a final frame cleanup 
 
     cutMarks(z);
-    hanger(z);// add cut marks and hanger holes
+    //hanger(z);// add cut marks and hanger holes
     if (z == stacks-1) {signature(z);}// sign the top layer
     sheet[z].scale(2.2);
     sheet[z].position = new Point(paper.view.viewSize.width/2, paper.view.viewSize.height/2);

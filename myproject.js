@@ -137,7 +137,7 @@ w=wide;h=high;
 var orientation="Portrait";
 
 if (orient==1){wide = h;high = w;orientation="Landscape";};
-if (orient==2){wide = w;high = w;orientation="Square";};
+//if (orient==2){wide = w;high = w;orientation="Square";};
 if (orient==3){wide = w;high = h;orientation="Portrait";};
 
 if (qo=="w"){wide = h;high = w;orientation="Landscape";};
@@ -250,7 +250,7 @@ for (z = 0; z < stacks; z++) {
     frameIt(z);// finish the layer with a final frame cleanup 
 
     cutMarks(z);
-    //hanger(z);// add cut marks and hanger holes
+    hanger(z);// add cut marks and hanger holes
     if (z == stacks-1) {signature(z);}// sign the top layer
     sheet[z].scale(2.2);
     sheet[z].position = new Point(paper.view.viewSize.width/2, paper.view.viewSize.height/2);
@@ -433,7 +433,7 @@ function frameIt(z){
         project.activeLayer.children[project.activeLayer.children.length-2].remove();
          
         
-        sheet[z].style = {fillColor: colors[z].Hex, strokeColor: linecolor.Hex, strokeWidth: 1*ratio,shadowColor: new Color(0,0,0,[0.3]),shadowBlur: 20,shadowOffset: new Point((stacks-z)*2.3, (stacks-z)*2.3)};
+        sheet[z].style = {fillColor: colors[z].Hex, strokeColor: colors[z].Hex, strokeWidth: 1*ratio,shadowColor: new Color(0,0,0,[0.3]),shadowBlur: 20,shadowOffset: new Point((stacks-z)*2.3, (stacks-z)*2.3)};
 }
 
 function cutMarks(z){

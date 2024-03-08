@@ -107,7 +107,7 @@ var framewidth = ~~(R.random_int(125, 200)*ratio);
     if (qfw){framewidth=qfw};
 
 var framradius = 0;
-var stacks = R.random_int(8, 12);
+var stacks = R.random_int(12, 12);
     //stacks = $fx.getParam("number_layers"); 
     if (ql){stacks=parseInt(ql)};
 console.log(stacks+" layers");
@@ -203,6 +203,7 @@ for (z = 0; z < stacks; z++) {
     solid(z)
     var punchOffset = ~~(punchRadius/(stacks-1))
     pR = ~~(punchRadius-(punchOffset*(stacks-z-1)));
+    pRh = ~~(punchRadius-(punchOffset*(stacks-z)));
    
        if (z > 0 ) {
         
@@ -217,7 +218,7 @@ for (z = 0; z < stacks; z++) {
                 }
                 
                 if (punchX[xg][yg] != 1 ){
-                    if (pR>2){punchout(xg,yg,pR,pR,z)}
+                    if (pR>2){punchout(xg,yg,pRh,pRh,z)}
                 };
                 
                 if (noise.get(xg,yg,z)>slideChance && z==stacks-1 ){

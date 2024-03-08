@@ -107,7 +107,7 @@ var framewidth = ~~(R.random_int(125, 200)*ratio);
     if (qfw){framewidth=qfw};
 
 var framradius = 0;
-var stacks = R.random_int(12, 12);
+var stacks = R.random_int(8, 12);
     //stacks = $fx.getParam("number_layers"); 
     if (ql){stacks=parseInt(ql)};
 console.log(stacks+" layers");

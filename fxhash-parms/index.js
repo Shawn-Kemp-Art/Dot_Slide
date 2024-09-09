@@ -260,7 +260,7 @@ for (z = 0; z < stacks; z++) {
     $fx.features(features);
     //$fx.preview();
 
-      //floatingframe();
+      floatingframe();
     //upspirestudio(features); //#render and send features to upspire.studio
 
 

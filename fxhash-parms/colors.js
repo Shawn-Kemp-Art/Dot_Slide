@@ -62,6 +62,12 @@ var SunsetGlow = [
     {"Hex": "#CC9047", "Name": "Golden"},
     {"Hex": "#745042", "Name": "Burnt Sienna"}
   ];
+
+  var BlackonBlack = [
+    {"Hex":"#1A1A1A", "Name":"Smooth Black"},
+    {"Hex":"#1A1A1A", "Name":"Smooth Black"},
+    {"Hex":"#1A1A1A", "Name":"Smooth Black"}
+  ];
   
   var OceanBreeze = [
     {"Hex": "#A9D0DF", "Name": "Aqua Blue"},

@@ -26,10 +26,20 @@ noise.noiseSeed(seed);
 
 definitions = [
     {
-        id: "punchRadius",
-        name: "punchRadius",
+        id: "layers",
+        name: "Layers",
         type: "number",
-        default: 75,
+        default: 12,
+        options: {
+            min: 6,
+            max: 12,
+            step: 1,
+        },  
+    },
+    {
+        id: "punchRadius",
+        name: "Punch radius",
+        type: "number",
         options: {
             min: 25,
             max: 100,
@@ -40,21 +50,26 @@ definitions = [
         id: "orientation",
         name: "Orientation",
         type: "select",
-        default: "portrait",
-        options: {options: ["portrait", "landscape", "square"]},
+        options: {options: ["portrait", "landscape"]},
+    },
+    {
+        id: "aspectratio",
+        name: "Aspect ratio",
+        type: "select",
+        default: "4:5",
+        options: {options: ["1:1", "2:5","3:5","4:5","54:86"]},
     },
     {
         id: "size",
-        name: "Size",
+        name: "Scale",
         type: "select",
         default: "2",
-        options: {options: ["1", "2", "3"]},
+        options: {options: ["1", "2", "3", "4", "5"]},
     },
     {
         id: "colors",
         name: "Max # of colors",
         type: "number",
-        default: 2,
         options: {
             min: 1,
             max: 6,
@@ -66,14 +81,24 @@ definitions = [
         name: "Theme",
         type: "select",
         default: "AllColors",
-        options: {options: ["AllColors", "SunsetGlow", "OceanBreeze", "NaturalCalm", "VintageChic", "BoldVibrant", "WintersTwilight", "WarmSpice", "SoftPetals", "FreshGreens", "MonochromeElegance", "TropicalSplash", "AutumnWarmth", "ElegantMonochrome", "SunKissedEarth", "CitrusPunch", "FrostySky", "BoldNights", "MutedElegance", "SunnyMeadows", "UrbanContrast"]},
+        options: {options: ["AllColors", "BlackonBlack","SunsetGlow", "OceanBreeze", "NaturalCalm", "VintageChic", "BoldVibrant", "WintersTwilight", "WarmSpice", "SoftPetals", "FreshGreens", "MonochromeElegance", "TropicalSplash", "AutumnWarmth", "ElegantMonochrome", "SunKissedEarth", "CitrusPunch", "FrostySky", "BoldNights", "MutedElegance", "SunnyMeadows", "UrbanContrast"]},
     },
     {
         id: "framecolor",
-        name: "Frame color",
+        name: "Mat color",
         type: "select",
-        default: "White",
-        options: {options: ["Random","White","Mocha"]},
+        options: {options: ["Random","White","Mocha","Black"]},
+    },
+    {
+        id: "matwidth",
+        name: "Mat size",
+        type: "number",
+        default: 125,
+        options: {
+            min: 50,
+            max: 200,
+            step: 25,
+        },  
     },
 
     ]
@@ -82,26 +107,34 @@ definitions = [
 
 $fx.params(definitions)
 var scale = $fx.getParam('size');
-var stacks = 12;
+var stacks = $fx.getParam('layers');
 var numofcolors = $fx.getParam('colors');
 
 //Set the properties for the artwork where 100 = 1 inch
 var wide = 800; 
 var high = 1000; 
 
+var wide = $fx.getParam('aspectx')*200;
+var high = $fx.getParam('aspecty')*200;
+
+if ($fx.getParam('aspectratio')== "1:1"){wide = 800; high = 800};
+if ($fx.getParam('aspectratio')== "2:5"){wide = 400; high = 1000};
+if ($fx.getParam('aspectratio')== "3:5"){wide = 600; high = 1000};
+if ($fx.getParam('aspectratio')== "4:5"){wide = 800; high = 1000};
+if ($fx.getParam('aspectratio')== "54:86"){wide = 540; high = 860};
 
 var ratio = 1/scale;//use 1/4 for 32x40 - 1/3 for 24x30 - 1/2 for 16x20 - 1/1 for 8x10
 var minOffset = ~~(7*ratio); //this is aproximatly .125"
-//var framewidth = ~~(R.random_int(125, 125)*ratio); 
-if (scale==1){var framewidth = 75};
-if (scale==2){var framewidth = ~~(125*ratio)};
-if (scale==3){var framewidth = ~~(175*ratio)};
+var framewidth = $fx.getParam('matwidth')*ratio; 
+//if (scale==1){var framewidth = $fx.getParam('matwidth')};
+//if (scale==2){var framewidth = ~~($fx.getParam('matwidth')*ratio)};
+//if (scale==3){var framewidth = ~~($fx.getParam('matwidth')*ratio)};
 var framradius = 0;
 
 
 // Set a canvas size for when layers are exploded where 100=1in
-var panelWide = 1600; 
-var panelHigh = 2000; 
+var panelWide = 4000; 
+var panelHigh = 4000; 
  
 paper.view.viewSize.width = 2400;
 paper.view.viewSize.height = 2400;
@@ -121,9 +154,12 @@ p=0;for (var c=0; c<stacks; c=c+1){colors[c] = palette[p];p=p+1;if(p==palette.le
 
 console.log(colors);
 //p=0;for (var c=0; c<stacks; c=c+1){colors[c] = palette[p];p=p+1;if(p==palette.length){p=0};}
-
+var linecolor = {"Hex":"#4C4638", "Name":"Mocha"};
 if ($fx.getParam('framecolor')=="White"){colors[stacks-1]={"Hex":"#FFFFFF", "Name":"Smooth White"}};
 if ($fx.getParam('framecolor')=="Mocha"){colors[stacks-1]={"Hex":"#4C4638", "Name":"Mocha"}};
+if ($fx.getParam('framecolor')=="Black"){colors[stacks-1]={"Hex":"#1A1A1A", "Name":"Smooth Black"};};
+
+if ($fx.getParam('pallete')=="BlackonBlack"){linecolor={"Hex":"#FFFFFF", "Name":"Smooth White"}};
 
 
 var woodframe = new Path();var framegap = new Path();
@@ -410,7 +446,7 @@ function frameIt(z){
         project.activeLayer.children[project.activeLayer.children.length-2].remove();
          
         
-        sheet[z].style = {fillColor: colors[z].Hex, strokeColor: colors[z].Hex, strokeWidth: 1*ratio,shadowColor: new Color(0,0,0,[0.3]),shadowBlur: 20,shadowOffset: new Point((stacks-z)*2.3, (stacks-z)*2.3)};
+        sheet[z].style = {fillColor: colors[z].Hex, strokeColor: linecolor.Hex, strokeWidth: 1/ratio,shadowColor: new Color(0,0,0,[0.3]),shadowBlur: 20,shadowOffset: new Point((stacks-z)*2.3, (stacks-z)*2.3)};
 }
 
 function cutMarks(z){
@@ -531,12 +567,18 @@ document.addEventListener('keypress', (event) => {
             canvas.toBlob(function(blob) {saveAs(blob, $fx.hash+'.png');});
             }
 
+        if(event.key == "f") {
+                floatingframe();
+            }
+
         //Export colors as txt
         if(event.key == "c") {
             var key = [];
+            key[0]=window.location.href;
             for (l=stacks;l>0;l--){
                 key[stacks-l] =  colors[l-1].Name;
             }; 
+            key[stacks+1]=window.location.href;
             console.log(key.reverse())
             var content = JSON.stringify(key.reverse())
             var filename = $fx.hash + ".txt";
@@ -547,7 +589,7 @@ document.addEventListener('keypress', (event) => {
 
        //Explode the layers     
        if(event.key == "e") {     
-            h=0;t=0;maxwidth=3000;
+            h=0;t=0;maxwidth=10000;
                for (z=0; z<sheet.length; z++) { 
                sheet[z].scale(1000/2300)   
                sheet[z].position = new Point(wide/2,high/2);        
